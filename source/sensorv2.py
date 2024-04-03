@@ -10,20 +10,24 @@ def check(arr1,arr2):
           equals=False
     return equals
 
-def left_motor():
+def left_motor(rev=False):
     p1 ="GP11"
     p2 ="GP10"
-    mt = machine.Pin(p1,machine.Pin.OUT)
-    mtg = machine.Pin(p2,machine.Pin.OUT)
-    mt.on()
-    mtg.off()
-def right_motor():
+    mt = [machine.Pin(p1,machine.Pin.OUT)]
+    mt.append(machine.Pin(p2,machine.Pin.OUT))
+    if rev:
+        mt=mt[::-1]
+    mt[0].on()
+    mt[1].off()
+def right_motor(rev=False):
     p1 ="GP8"
     p2 ="GP9"
-    mt = machine.Pin(p1,machine.Pin.OUT)
-    mtg = machine.Pin(p2,machine.Pin.OUT)
-    mt.on()
-    mtg.off()
+    mt = [machine.Pin(p1,machine.Pin.OUT)]
+    mt.append(machine.Pin(p2,machine.Pin.OUT))
+    if rev:
+        mt=mt[::-1]
+    mt[0].on()
+    mt[1].off()
 
 def stop_left_motor():
     p1 ="GP11"
@@ -42,14 +46,16 @@ def stop_right_motor():
 
 
 sens_pins=["GP2","GP3","GP4"]
-
-
+reverce_button = machine.Pin("GP20", machine.Pin.IN, machine.Pin.PULL_DOWN)
+reverce_led_pin = machine.Pin("GP0", machine.Pin.OUT)
 
 
 sens =[]
-
+REVERSE = False
+DELAY=0.001
+STOP_MIN_DELAY=0.3
 time=0
-
+time_from_last_command=0
 
 for s in sens_pins:
       sens.append(machine.Pin(s,machine.Pin.IN))  
@@ -60,28 +66,59 @@ for s in sens_pins:
     
     
 while True:
+    
+    print(f"REVERSE : {REVERSE}")
+    if(reverce_button.value()!=1) and (time_from_last_command>0.1):
+        REVERSE=not REVERSE
+        time_from_last_command=0
+    if REVERSE:
+        reverce_led_pin.on()
+    else:
+        reverce_led_pin.off()
     c_state=[]
-    stop_left_motor()
-    stop_right_motor()
-    print(f"time : {time}")
+    print(f"time : {time} command_time : {time_from_last_command}")
     for s in sens:
         c_state.append(s.value())
     print(c_state)
     
-    if(check([1, 1 ,1],c_state)):
+    if(check([1, 1 ,1],c_state) and (time_from_last_command>STOP_MIN_DELAY)):
+        stop_left_motor()
+        stop_right_motor()
+        time_from_last_command=0
         print("stop")
-    elif (check([1,0,1],c_state)):
+    elif (check([1,0,1],c_state)and (time_from_last_command>0)):
+        right_motor(REVERSE)
+        left_motor(REVERSE)
+        time_from_last_command=0
         print("forw")
-    elif (check([0,0,1],c_state)):
+    elif (check([0,0,1],c_state)and (time_from_last_command>0)):
         print("right")
-    elif (check([0,1,1],c_state)):
+        left_motor(REVERSE)
+        stop_right_motor()
+        time_from_last_command=0
+    elif (check([0,1,1],c_state)and (time_from_last_command>0)):
         print("right")
-    elif (check([1,1,0],c_state)):
+        left_motor(REVERSE)
+        stop_right_motor()
+        time_from_last_command=0
+    elif (check([1,1,0],c_state)and (time_from_last_command>0)):
+        right_motor(REVERSE)
+        stop_left_motor()
         print("left")
-    elif (check([1,0,0],c_state)):
+        time_from_last_command=0
+    elif (check([1,0,0],c_state)and (time_from_last_command>0)):
+        right_motor(REVERSE)
+        stop_left_motor()
+        time_from_last_command=0
         print("left")
-    else:
+    elif (time_from_last_command >STOP_MIN_DELAY):
+        stop_left_motor()
+        stop_right_motor()
+        time_from_last_command=0
         print("stop")
     
-    utime.sleep(0.1)
-    time+=0.1
+    utime.sleep(DELAY)
+    time+=DELAY
+    time_from_last_command+=DELAY
+
+
