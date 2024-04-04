@@ -93,7 +93,7 @@ while True:
     print(c_state)
     
     #whene gp1 will work add it
-    if(0 or sens[4].value()==0):
+    if(sens[0].value()==0 or sens[4].value()==0):
         stop_left_motor()
         stop_right_motor()
         print("Emer stop")
@@ -137,6 +137,7 @@ while True:
     utime.sleep(DELAY)
     time+=DELAY
     time_from_last_command+=DELAY
+
 
 
 
