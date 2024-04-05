@@ -61,9 +61,10 @@ reverce_led_pin = machine.Pin("GP0", machine.Pin.OUT)
 sens =[]
 REVERSE = False
 DELAY=0.001
-STOP_MIN_DELAY=0.3
+STOP_MIN_DELAY=0.5
 time=0
 time_from_last_command=0
+time_from_for=0
 
 for s in sens_pins:
       sens.append(machine.Pin(s,machine.Pin.IN))  
@@ -92,8 +93,8 @@ while True:
         c_state.append(sens[i].value())
     print(c_state)
     
-    #whene gp1 will work add it
-    if(sens[0].value()==0 or sens[4].value()==0):
+    #whene gp1 will work add it sens[0].value()==0)
+    if((0) or (sens[4].value()==0)and (time_from_last_command>0.5)):
         stop_left_motor()
         stop_right_motor()
         print("Emer stop")
@@ -106,26 +107,40 @@ while True:
     elif (check([1,0,1],c_state)and (time_from_last_command>0)):
         right_motor(REVERSE)
         left_motor(REVERSE)
+        time_from_for=0;
         time_from_last_command=0
         print("forw")
     elif (check([0,0,1],c_state)and (time_from_last_command>0)):
         print("right")
         left_motor(REVERSE)
-        stop_right_motor()
+        #stop_right_motor()
+        if (time_from_for>0.15):
+            right_motor(True)
+        else:
+            stop_right_motor()
         time_from_last_command=0
     elif (check([0,1,1],c_state)and (time_from_last_command>0)):
         print("right")
         left_motor(REVERSE)
-        stop_right_motor()
+        if (time_from_for>0.15):
+            right_motor(True)
+        else:
+            stop_right_motor()
         time_from_last_command=0
     elif (check([1,1,0],c_state)and (time_from_last_command>0)):
         right_motor(REVERSE)
-        stop_left_motor()
+        if (time_from_for>0.15):
+            left_motor(True)
+        else:
+            stop_left_motor()
         print("left")
         time_from_last_command=0
     elif (check([1,0,0],c_state)and (time_from_last_command>0)):
         right_motor(REVERSE)
-        stop_left_motor()
+        if (time_from_for>0.15):
+            left_motor(True)
+        else:
+            stop_left_motor()
         time_from_last_command=0
         print("left")
     elif (time_from_last_command >STOP_MIN_DELAY):
@@ -137,7 +152,7 @@ while True:
     utime.sleep(DELAY)
     time+=DELAY
     time_from_last_command+=DELAY
-
+    time_from_for+=DELAY
 
 
 
