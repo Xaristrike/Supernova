@@ -1,3 +1,3 @@
 This is our repo for the Embedded Systems course
 
-Contains all code, part lists, datasheets and designs for our line follower robot
+Contains all code and part lists for our line follower robot
