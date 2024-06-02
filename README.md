@@ -14,12 +14,12 @@ required to build and understand our line follower robot.
 
 ## Introduction
 This project demonstrates a line follower robot designed to navigate a path marked by a line on the ground. The robot uses sensors to detect the line and adjusts its movement 
-accordingly to stay on course. This repository includes detailed instructions, code, and a list of parts to help you recreate the project.
+accordingly to stay on course. This repository includes detailed instructions, code and a list of parts to help you recreate the project.
 
 ## Features
-- Autonomous navigation using line detection
-- Real-time sensor data processing
-- Smooth and responsive control mechanisms
+- Autonomous navigation using line detection.
+- Real-time sensor data processing.
+- Accurate line tracking and following.
 
 ## Hardware Requirements
 To build the line follower robot, you will need the following components:
