@@ -39,7 +39,7 @@ The following software tools are required to develop and upload the code to the 
 ## Installation
 1. Clone this repository to your local machine using:
 ```sh
-git clone https://github.com/yourusername/line-follower-robot.git
+git clone https://github.com/Xaristrike/Supernova.git
 ```
 2. Install Thonny IDE on your operating system according to the instructions from Thonny's website.
 
