@@ -11,7 +11,6 @@ required to build and understand our line follower robot.
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributors](#contributors)
-- [License](#license)
 
 ## Introduction
 This project demonstrates a line follower robot designed to navigate a path marked by a line on the ground. The robot uses sensors to detect the line and adjusts its movement 
@@ -61,4 +60,4 @@ git clone https://github.com/yourusername/line-follower-robot.git
 - **Charalampos Koukos** - *Manager, Component Supply, Testing* - [Xaristrike](https://github.com/Xaristrike)
 - **Daniil Christofi** - *Software Developer, Hardware Assembly, Testing* - [DanielChristofi3110](https://github.com/DanielChristofi3110)
 - **Christos Toumparis** - *Hardware Assembly, Art Design, Component Supply, Testing* - [ChrisToumparis](https://github.com/ChrisToumparis)
-- **Spiros Tsochataridis** - *Hardware Assembly, Testing* - [spirostt](https://github.com/spirostt)
+- **Spiros Tsochataridis** - *Hardware Assembly, Art Design, Testing* - [spirostt](https://github.com/spirostt)
